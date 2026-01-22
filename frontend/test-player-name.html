@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试用户名功能</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 { color: #333; }
+    h2 { color: #667eea; margin-top: 0; }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    button:hover { background: #5568d3; }
+    .result {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f0f9ff;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+    .success { color: #10b981; }
+    .error { color: #ef4444; }
+    .info { color: #3b82f6; }
+  </style>
+</head>
+<body>
+  <h1>🎮 用户名功能测试</h1>
+
+  <div class="test-section">
+    <h2>1. 保存用户名</h2>
+    <input type="text" id="nameInput" placeholder="输入用户名" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+    <button onclick="saveName()">保存用户名</button>
+    <div class="result" id="saveResult"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>2. 读取用户名</h2>
+    <button onclick="loadName()">读取用户名</button>
+    <div class="result" id="loadResult"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>3. 清除用户名</h2>
+    <button onclick="clearName()">清除用户名</button>
+    <div class="result" id="clearResult"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>4. 测试持久化</h2>
+    <p style="color: #666;">保存用户名后，刷新页面，然后点击"读取用户名"验证数据是否依然存在</p>
+    <button onclick="testPersistence()">测试持久化</button>
+    <div class="result" id="persistenceResult"></div>
+  </div>
+
+  <script>
+    const PLAYER_NAME_KEY = 'tetris_player_name';
+
+    function saveName() {
+      const name = document.getElementById('nameInput').value.trim();
+      const resultDiv = document.getElementById('saveResult');
+
+      if (!name) {
+        resultDiv.innerHTML = '<span class="error">❌ 用户名不能为空</span>';
+        return;
+      }
+
+      if (name.length < 2) {
+        resultDiv.innerHTML = '<span class="error">❌ 用户名至少需要2个字符</span>';
+        return;
+      }
+
+      if (name.length > 20) {
+        resultDiv.innerHTML = '<span class="error">❌ 用户名最多20个字符</span>';
+        return;
+      }
+
+      try {
+        localStorage.setItem(PLAYER_NAME_KEY, name);
+        resultDiv.innerHTML = `<span class="success">✅ 用户名 "${name}" 已保存到 localStorage</span>`;
+        document.getElementById('nameInput').value = '';
+      } catch (error) {
+        resultDiv.innerHTML = `<span class="error">❌ 保存失败: ${error.message}</span>`;
+      }
+    }
+
+    function loadName() {
+      const resultDiv = document.getElementById('loadResult');
+
+      try {
+        const name = localStorage.getItem(PLAYER_NAME_KEY);
+
+        if (!name) {
+          resultDiv.innerHTML = '<span class="info">ℹ️ localStorage 中没有保存的用户名</span>';
+          return;
+        }
+
+        resultDiv.innerHTML = `<span class="success">✅ 读取到用户名: "${name}"</span>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<span class="error">❌ 读取失败: ${error.message}</span>`;
+      }
+    }
+
+    function clearName() {
+      const resultDiv = document.getElementById('clearResult');
+
+      try {
+        const existingName = localStorage.getItem(PLAYER_NAME_KEY);
+        localStorage.removeItem(PLAYER_NAME_KEY);
+
+        if (existingName) {
+          resultDiv.innerHTML = `<span class="success">✅ 已清除用户名: "${existingName}"</span>`;
+        } else {
+          resultDiv.innerHTML = '<span class="info">ℹ️ localStorage 中没有用户名需要清除</span>';
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `<span class="error">❌ 清除失败: ${error.message}</span>`;
+      }
+    }
+
+    function testPersistence() {
+      const resultDiv = document.getElementById('persistenceResult');
+      const testNames = ['测试玩家1', 'TestPlayer2', '张三'];
+
+      try {
+        // 依次保存不同的用户名
+        const lastName = testNames[testNames.length - 1];
+        localStorage.setItem(PLAYER_NAME_KEY, lastName);
+
+        // 立即读取验证
+        const currentName = localStorage.getItem(PLAYER_NAME_KEY);
+
+        if (currentName === lastName) {
+          resultDiv.innerHTML = `
+            <span class="success">✅ 持久化测试通过!</span><br>
+            <span class="info">当前用户名: "${currentName}"</span><br>
+            <span class="info">请刷新页面后再次点击"读取用户名"验证</span>
+          `;
+        } else {
+          resultDiv.innerHTML = `<span class="error">❌ 持久化测试失败: 期望 "${lastName}"，实际 "${currentName}"</span>`;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `<span class="error">❌ 测试失败: ${error.message}</span>`;
+      }
+    }
+
+    // 页面加载时显示当前状态
+    window.addEventListener('load', () => {
+      loadName();
+    });
+  </script>
+</body>
+</html>

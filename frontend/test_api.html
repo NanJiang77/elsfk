@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API测试</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #1a1a2e; color: white; }
+        .test-section { margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .result { margin-top: 10px; padding: 10px; background: rgba(0,255,0,0.2); border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>后端API集成测试</h1>
+    
+    <div class="test-section">
+        <h2>1. 健康检查</h2>
+        <button onclick="testHealth()">测试</button>
+        <div id="health-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. 保存游戏记录</h2>
+        <button onclick="testSaveGame()">测试</button>
+        <div id="save-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. 获取排行榜</h2>
+        <button onclick="testLeaderboard()">测试</button>
+        <div id="leaderboard-result" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+
+        async function testHealth() {
+            const result = document.getElementById('health-result');
+            try {
+                const response = await fetch(`${API_BASE}/api/health`);
+                const data = await response.json();
+                result.textContent = JSON.stringify(data, null, 2);
+                result.style.background = 'rgba(0,255,0,0.2)';
+            } catch (error) {
+                result.textContent = 'Error: ' + error.message;
+                result.style.background = 'rgba(255,0,0,0.2)';
+            }
+        }
+
+        async function testSaveGame() {
+            const result = document.getElementById('save-result');
+            try {
+                const response = await fetch(`${API_BASE}/api/games`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        player_name: 'API测试玩家',
+                        score: 2500,
+                        level: 8,
+                        lines: 160,
+                        play_time: 300
+                    })
+                });
+                const data = await response.json();
+                result.textContent = JSON.stringify(data, null, 2);
+                result.style.background = 'rgba(0,255,0,0.2)';
+            } catch (error) {
+                result.textContent = 'Error: ' + error.message;
+                result.style.background = 'rgba(255,0,0,0.2)';
+            }
+        }
+
+        async function testLeaderboard() {
+            const result = document.getElementById('leaderboard-result');
+            try {
+                const response = await fetch(`${API_BASE}/api/leaderboard?limit=5`);
+                const data = await response.json();
+                result.textContent = JSON.stringify(data, null, 2);
+                result.style.background = 'rgba(0,0,255,0.2)';
+            } catch (error) {
+                result.textContent = 'Error: ' + error.message;
+                result.style.style.background = 'rgba(255,0,0,0.2)';
+            }
+        }
+    </script>
+</body>
+</html>

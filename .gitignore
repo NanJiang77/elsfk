@@ -1,0 +1,91 @@
+# 依赖目录
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+*.egg-info/
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv/
+
+# 数据库
+*.db
+*.db-shm
+*.db-wal
+data.db
+*.sqlite
+*.sqlite3
+
+# 日志
+*.log
+logs/
+*.log.*
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# 测试覆盖率
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# 临时文件
+*.tmp
+*.temp
+*.cache
+.cache/
+
+# 操作系统
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 构建产物
+dist/
+build/
+*.tsbuildinfo
+
+# Claude AI
+.claude/
