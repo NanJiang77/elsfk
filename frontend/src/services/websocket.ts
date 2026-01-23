@@ -164,7 +164,10 @@ export class LeaderboardWebSocket {
 }
 
 // 创建全局WebSocket客户端实例
-const WS_URL = `ws://${window.location.hostname}:8000/ws/leaderboard`;
+// 开发环境使用相对路径通过Vite代理，生产环境使用绝对路径
+const WS_URL = import.meta.env.DEV
+  ? `ws://${window.location.hostname}:8000/ws/leaderboard`
+  : `ws://${window.location.hostname}/ws/leaderboard`;
 export const leaderboardWS = new LeaderboardWebSocket(WS_URL);
 
 // 自动连接

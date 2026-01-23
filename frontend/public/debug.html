@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>调试 - API连接</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover { background: #818cf8; }
+        pre {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
+        .info { color: #3b82f6; }
+    </style>
+</head>
+<body>
+    <h1>🔍 API连接调试</h1>
+
+    <div class="section">
+        <h2>1. 环境信息</h2>
+        <pre id="env">加载中...</pre>
+    </div>
+
+    <div class="section">
+        <h2>2. 测试1: Fetch API (直接调用)</h2>
+        <button onclick="test1()">测试 fetch('http://localhost:8000/api/leaderboard')</button>
+        <pre id="test1">等待测试...</pre>
+    </div>
+
+    <div class="section">
+        <h2>3. 测试2: Fetch API (相对路径)</h2>
+        <button onclick="test2()">测试 fetch('/api/leaderboard')</button>
+        <pre id="test2">等待测试...</pre>
+    </div>
+
+    <div class="section">
+        <h2>4. 测试3: Axios (如果可用)</h2>
+        <button onclick="test3()">测试 axios.get('/api/leaderboard')</button>
+        <pre id="test3">等待测试...</pre>
+    </div>
+
+    <div class="section">
+        <h2>5. 网络请求监控</h2>
+        <p class="info">打开浏览器开发者工具 (F12) → Network 标签，然后点击上面的测试按钮</p>
+        <p class="info">查看实际发送的请求URL和响应</p>
+    </div>
+
+    <script>
+        // 显示环境信息
+        document.getElementById('env').textContent = `
+当前URL: ${window.location.href}
+Hostname: ${window.location.hostname}
+Port: ${window.location.port}
+Protocol: ${window.location.protocol}
+        `.trim();
+
+        // 测试1: 直接调用
+        async function test1() {
+            const output = document.getElementById('test1');
+            output.textContent = '测试中...';
+
+            try {
+                const response = await fetch('http://localhost:8000/api/leaderboard?limit=3');
+                const data = await response.json();
+
+                output.innerHTML = `<span class="success">✅ 成功!</span>\n\n状态码: ${response.status}\n数据条数: ${data.length}\n\n数据:\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                output.innerHTML = `<span class="error">❌ 失败!</span>\n\n错误: ${error.message}\n\n可能原因: CORS错误\n详细信息: ${error.stack}`;
+            }
+        }
+
+        // 测试2: 相对路径（通过Vite代理）
+        async function test2() {
+            const output = document.getElementById('test2');
+            output.textContent = '测试中...';
+
+            try {
+                const response = await fetch('/api/leaderboard?limit=3');
+                const data = await response.json();
+
+                output.innerHTML = `<span class="success">✅ 成功!</span>\n\n状态码: ${response.status}\n数据条数: ${data.length}\n\n数据:\n${JSON.stringify(data, null, 2)}\n\n注意: 此请求通过Vite代理转发到后端`;
+            } catch (error) {
+                output.innerHTML = `<span class="error">❌ 失败!</span>\n\n错误: ${error.message}\n\n可能原因:\n1. Vite代理配置错误\n2. 后端服务未启动\n详细信息: ${error.stack}`;
+            }
+        }
+
+        // 测试3: Axios
+        async function test3() {
+            const output = document.getElementById('test3');
+            output.textContent = '测试中...';
+
+            try {
+                // 动态加载axios
+                if (!window.axios) {
+                    output.textContent = '加载axios中...';
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js';
+                    document.head.appendChild(script);
+                    await new Promise(resolve => script.onload = resolve);
+                }
+
+                const response = await window.axios.get('/api/leaderboard?limit=3');
+                output.innerHTML = `<span class="success">✅ 成功!</span>\n\n状态码: ${response.status}\n数据条数: ${response.data.length}\n\n数据:\n${JSON.stringify(response.data, null, 2)}`;
+            } catch (error) {
+                output.innerHTML = `<span class="error">❌ 失败!</span>\n\n错误: ${error.message}\n\n响应数据: ${error.response ? JSON.stringify(error.response.data) : 'N/A'}\n详细信息: ${error.stack}`;
+            }
+        }
+
+        // 页面加载时的提示
+        console.log('%c🔍 调试模式', 'color: #6366f1; font-size: 20px; font-weight: bold');
+        console.log('%c打开Network标签查看请求详情', 'color: #3b82f6; font-size: 14px');
+    </script>
+</body>
+</html>

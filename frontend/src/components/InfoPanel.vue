@@ -96,11 +96,6 @@ const drawNextPiece = () => {
 
         ctx.fillStyle = color;
         ctx.fillRect(x + 1, y + 1, blockSize - 2, blockSize - 2);
-
-        // 高光
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-        ctx.fillRect(x + 1, y + 1, blockSize - 2, 4);
-        ctx.fillRect(x + 1, y + 1, 4, blockSize - 2);
       }
     });
   });
@@ -121,11 +116,12 @@ watch(() => gameStore.nextPieceType, () => {
 
 <style scoped>
 .info-panel {
-  width: 220px;
-  background: rgba(255, 255, 255, 0.08);
+  width: 260px;
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(12px);
   border-radius: 12px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
 }
 
 .panel-section {
@@ -137,35 +133,58 @@ watch(() => gameStore.nextPieceType, () => {
 }
 
 .section-title {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   margin-bottom: 8px;
-  color: var(--text-secondary);
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .next-piece-preview {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  padding: 16px;
+  border: 2px solid #475569;
 }
 
 .player-name-display {
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 700;
+  color: #818cf8;
   text-align: center;
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
   word-break: break-word;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  margin-bottom: 20px;
 }
 
-.score-display,
-.level-display,
-.lines-display {
-  font-size: 32px;
-  font-weight: bold;
-  color: var(--text-primary);
+.score-display {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
   text-align: center;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.level-display {
+  font-size: 32px;
+  font-weight: 700;
+  color: #22c55e;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+}
+
+.lines-display {
+  font-size: 24px;
+  font-weight: 600;
+  color: #3b82f6;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
 }
 </style>

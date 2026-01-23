@@ -32,17 +32,20 @@ const piece = computed(() =>
 <style scoped>
 .game-canvas-container {
   position: relative;
-  width: 400px;
-  height: 800px;
-  border: 3px solid #333;
-  border-radius: 4px;
+  width: 450px;  /* 15列 × 30px = 450px */
+  height: 600px;  /* 20行 × 30px = 600px */
+  border: 4px solid #6366f1;
+  border-radius: 12px;
   display: block;
   outline: none;
   background: #1a1a2e;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
 }
 
 .game-canvas-container:focus {
-  border-color: #667eea;
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
 }
 
 .game-board-layer {

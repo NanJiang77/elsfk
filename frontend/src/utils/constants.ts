@@ -6,13 +6,13 @@ import type { PieceType, PieceShape, GameConfig } from '@/types/game';
 
 /** 方块颜色配置 */
 export const PIECE_COLORS: Record<PieceType, string> = {
-  I: '#00f0f0', // 青色
-  O: '#f0f000', // 黄色
-  T: '#a000f0', // 紫色
-  S: '#00f000', // 绿色
-  Z: '#f00000', // 红色
-  J: '#0000f0', // 蓝色
-  L: '#f0a000', // 橙色
+  I: '#06b6d4', // 青色
+  O: '#eab308', // 黄色
+  T: '#a855f7', // 紫色
+  S: '#22c55e', // 绿色
+  Z: '#ef4444', // 红色
+  J: '#3b82f6', // 蓝色
+  L: '#f97316', // 橙色
 };
 
 /** 方块旋转形状定义 */
@@ -63,9 +63,9 @@ export const PIECE_SHAPES: Record<PieceType, PieceShape[]> = {
 
 /** 游戏默认配置 */
 export const DEFAULT_GAME_CONFIG: GameConfig = {
-  cols: 10,
-  rows: 20,
-  blockSize: 40,
+  cols: 15,  // 宽度增加50% (10列 → 15列)
+  rows: 20,  // 高度不变
+  blockSize: 30,  // 单元格大小缩小为30px
   initialSpeed: 1000,
   linesPerLevel: 20,
 };

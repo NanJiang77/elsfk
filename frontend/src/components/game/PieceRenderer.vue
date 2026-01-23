@@ -104,11 +104,6 @@ const drawBlock = (x: number, y: number, color: string, ghost = false) => {
     // 实心方块
     ctx.value.fillStyle = color;
     ctx.value.fillRect(px + 1, py + 1, blockSize - 2, blockSize - 2);
-
-    // 高光效果
-    ctx.value.fillStyle = 'rgba(255, 255, 255, 0.1)';
-    ctx.value.fillRect(px + 1, py + 1, blockSize - 2, 4);
-    ctx.value.fillRect(px + 1, py + 1, 4, blockSize - 2);
   }
 };
 

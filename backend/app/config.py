@@ -16,7 +16,13 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./data.db"
 
     # CORS 配置
-    ALLOWED_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    ALLOWED_ORIGINS: list[str] = [
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:5175",
+        "http://localhost:5176",
+        "http://localhost:3000"
+    ]
 
     # 游戏配置
     LINES_PER_LEVEL: int = 20

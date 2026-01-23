@@ -175,18 +175,20 @@ watch(isGameOver, (isOver) => {
 <style scoped>
 .game-page {
   width: 100%;
-  display: flex;
-  justify-content: center;
+  min-height: calc(100vh - 120px);
+  padding: 24px;
 }
 
 .game-container {
   display: flex;
-  gap: 20px;
-  align-items: flex-start;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .game-area {
   position: relative;
+  flex-shrink: 0;
 }
 
 .game-overlay {
@@ -195,43 +197,56 @@ watch(isGameOver, (isOver) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 12px;
 }
 
 .overlay-content {
   text-align: center;
   color: white;
-  padding: 40px;
+  padding: 48px 32px;
 }
 
 .overlay-title {
-  font-size: 48px;
-  margin-bottom: 20px;
-  font-weight: bold;
+  font-size: 32px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .overlay-score {
-  font-size: 24px;
-  margin-bottom: 30px;
-  color: #ffd700;
+  font-size: 20px;
+  margin-bottom: 32px;
+  color: #cbd5e1;
+  font-weight: 500;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
   color: white;
   border: none;
   padding: 12px 32px;
-  font-size: 18px;
+  font-size: 15px;
+  font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
 
 .btn-primary:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 </style>

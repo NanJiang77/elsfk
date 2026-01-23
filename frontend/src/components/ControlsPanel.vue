@@ -47,53 +47,57 @@
 
 <style scoped>
 .controls-panel {
-  width: 200px;
-  background: rgba(255, 255, 255, 0.08);
+  width: 220px;
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(12px);
   border-radius: 12px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
 }
 
 .panel-title {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   margin-bottom: 16px;
+  color: #cbd5e1;
   text-align: center;
-  color: var(--text-primary);
 }
 
 .key-cards {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .key-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.3);
   border-radius: 8px;
   padding: 10px;
   text-align: center;
-  transition: background 0.2s;
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  transition: all 0.2s;
 }
 
 .key-card:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.5);
 }
 
 .key-icon {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid #475569;
   border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 18px;
-  font-weight: bold;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
   margin-bottom: 6px;
-  color: var(--text-primary);
+  color: #e2e8f0;
 }
 
 .key-desc {
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
 }
 </style>

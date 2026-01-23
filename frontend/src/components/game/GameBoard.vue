@@ -28,7 +28,7 @@ const drawGrid = () => {
 
   const { blockSize, cols, rows } = DEFAULT_GAME_CONFIG;
 
-  ctx.value.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+  ctx.value.strokeStyle = '#2d2d44';
   ctx.value.lineWidth = 1;
 
   // 垂直线
@@ -75,10 +75,12 @@ const drawBlock = (x: number, y: number, color: string) => {
   ctx.value.fillStyle = color;
   ctx.value.fillRect(px + 1, py + 1, blockSize - 2, blockSize - 2);
 
-  // 高光效果
-  ctx.value.fillStyle = 'rgba(255, 255, 255, 0.1)';
-  ctx.value.fillRect(px + 1, py + 1, blockSize - 2, 4);
-  ctx.value.fillRect(px + 1, py + 1, 4, blockSize - 2);
+  // 添加渐变效果
+  const gradient = ctx.value.createLinearGradient(px, py, px + blockSize, py + blockSize);
+  gradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+  gradient.addColorStop(1, 'rgba(0, 0, 0, 0.3)');
+  ctx.value.fillStyle = gradient;
+  ctx.value.fillRect(px + 1, py + 1, blockSize - 2, blockSize - 2);
 };
 
 const render = () => {
