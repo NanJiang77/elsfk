@@ -105,6 +105,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
 }
 
 .app-footer {

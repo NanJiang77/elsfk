@@ -130,7 +130,8 @@ onUnmounted(() => {
 .leaderboard-page {
   width: 100%;
   min-height: calc(100vh - 120px);
-  padding: 24px;
+  display: flex;
+  justify-content: center;
 }
 
 .leaderboard-container {

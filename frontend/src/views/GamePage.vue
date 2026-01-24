@@ -176,14 +176,15 @@ watch(isGameOver, (isOver) => {
 .game-page {
   width: 100%;
   min-height: calc(100vh - 120px);
-  padding: 24px;
+  display: flex;
+  justify-content: center;
 }
 
 .game-container {
   display: flex;
   gap: 24px;
   max-width: 1400px;
-  margin: 0 auto;
+  width: fit-content;
 }
 
 .game-area {
