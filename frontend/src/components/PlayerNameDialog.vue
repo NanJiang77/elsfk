@@ -6,9 +6,12 @@
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :show-close="false"
+    role="dialog"
+    aria-labelledby="dialog-title"
+    aria-describedby="dialog-hint"
   >
     <div class="name-dialog-content">
-      <p class="dialog-hint">请输入您的名字开始游戏</p>
+      <p id="dialog-hint" class="dialog-hint">请输入您的名字开始游戏</p>
 
       <el-input
         v-model="inputName"
@@ -18,10 +21,13 @@
         clearable
         @keyup.enter="handleConfirm"
         ref="inputRef"
+        aria-label="玩家名字"
+        :aria-invalid="!isNameValid && inputName.length > 0"
+        aria-describedby="name-tips"
       />
 
-      <div class="name-tips">
-        <el-icon class="tip-icon"><InfoFilled /></el-icon>
+      <div id="name-tips" class="name-tips" role="note">
+        <el-icon class="tip-icon" aria-hidden="true"><InfoFilled /></el-icon>
         <span>您的名字将用于保存游戏记录和排行榜展示</span>
       </div>
     </div>
@@ -33,6 +39,7 @@
         :disabled="!isNameValid"
         size="large"
         style="width: 100%"
+        aria-label="开始游戏"
       >
         开始游戏
       </el-button>
@@ -100,10 +107,11 @@ watch(() => props.visible, (visible) => {
 }
 
 .dialog-hint {
-  font-size: 15px;
-  color: #111827;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--tech-text);
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   font-weight: 500;
 }
 
@@ -111,38 +119,38 @@ watch(() => props.visible, (visible) => {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 12px;
-  padding: 10px 12px;
-  background: #fef3c7;
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(56, 139, 200, 0.05);
   border-radius: 4px;
-  color: #92400e;
+  color: var(--tech-text-muted);
   font-size: 12px;
-  border: 1px solid #fcd34d;
+  border: 1px solid var(--tech-border);
 }
 
 .tip-icon {
-  color: #f59e0b;
+  color: var(--tech-accent);
   font-size: 14px;
   flex-shrink: 0;
 }
 
 /* Element Plus Dialog 样式覆盖 */
 :deep(.el-dialog) {
-  background: rgba(30, 41, 59, 0.95);
+  background: var(--tech-panel);
   backdrop-filter: blur(20px);
-  border-radius: 12px;
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  border: 1px solid var(--tech-border);
 }
 
 :deep(.el-dialog__header) {
-  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+  border-bottom: 1px solid var(--tech-border);
   padding: 20px 24px;
 }
 
 :deep(.el-dialog__title) {
-  color: #f1f5f9;
-  font-size: 18px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--tech-text);
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -152,62 +160,64 @@ watch(() => props.visible, (visible) => {
 
 :deep(.el-dialog__footer) {
   padding: 16px 24px 20px;
-  border-top: 1px solid rgba(99, 102, 241, 0.2);
+  border-top: 1px solid var(--tech-border);
 }
 
 :deep(.el-input__wrapper) {
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid #475569;
+  background: rgba(56, 139, 200, 0.05);
+  border: 1px solid var(--tech-border);
   box-shadow: none;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  border-radius: 4px;
 }
 
 :deep(.el-input__wrapper:hover) {
-  border-color: #64748b;
+  border-color: var(--tech-accent);
 }
 
 :deep(.el-input__wrapper.is-focus) {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  border-color: var(--tech-accent);
+  box-shadow: 0 0 0 2px rgba(56, 139, 200, 0.1);
 }
 
 :deep(.el-input__inner) {
-  color: #f1f5f9;
+  color: var(--tech-text);
   font-size: 14px;
+  font-family: 'Inter', sans-serif;
 }
 
 :deep(.el-input__inner::placeholder) {
-  color: #64748b;
+  color: var(--tech-text-muted);
 }
 
 :deep(.el-input__count) {
-  color: #64748b;
+  color: var(--tech-text-muted);
   background: transparent;
 }
 
 :deep(.el-button--primary) {
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--tech-accent);
   border: none;
-  font-size: 14px;
+  color: var(--tech-bg);
+  font-size: 13px;
   font-weight: 600;
   padding: 10px 20px;
-  height: 36px;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  height: auto;
+  transition: all 0.2s ease;
 }
 
 :deep(.el-button--primary:hover) {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
+  background: var(--tech-accent-2);
 }
 
 :deep(.el-button--primary:disabled) {
-  background: #475569;
-  color: #94a3b8;
-  box-shadow: none;
+  background: var(--tech-border);
+  color: var(--tech-text-muted);
 }
 
 :deep(.el-overlay) {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(10, 14, 26, 0.8);
   backdrop-filter: blur(4px);
 }
 </style>

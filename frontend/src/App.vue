@@ -1,12 +1,15 @@
 <template>
   <div id="app">
+    <!-- CRT 扫描线效果 -->
+    <div class="crt-overlay"></div>
+
     <!-- 顶部导航栏 -->
     <header class="app-header">
       <div class="header-content">
         <h1 class="logo">俄罗斯方块</h1>
-        <nav class="nav-menu">
-          <router-link to="/" class="nav-link">游戏</router-link>
-          <router-link to="/leaderboard" class="nav-link">排行榜</router-link>
+        <nav class="nav-menu" aria-label="主导航">
+          <router-link to="/" class="nav-link" aria-label="前往游戏页面">游戏</router-link>
+          <router-link to="/leaderboard" class="nav-link" aria-label="查看排行榜">排行榜</router-link>
         </nav>
       </div>
     </header>
@@ -28,31 +31,126 @@
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  /* 科技感配色方案 */
+  --tech-bg: #0a0e1a;
+  --tech-panel: rgba(16, 24, 40, 0.9);
+  --tech-border: rgba(56, 139, 200, 0.3);
+  --tech-accent: #38bdf8;
+  --tech-accent-2: #22d3d3;
+  --tech-accent-3: #818cf8;
+  --tech-text: #e2e8f0;
+  --tech-text-muted: #94a3b8;
+  --tech-grid: rgba(56, 139, 200, 0.04);
+}
+
 #app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  color: #f1f5f9;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--tech-bg);
+  color: var(--tech-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 六边形网格背景 */
+#app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(30deg, var(--tech-grid) 12%, transparent 12.5%, transparent 87%, var(--tech-grid) 87.5%, var(--tech-grid)),
+    linear-gradient(150deg, var(--tech-grid) 12%, transparent 12.5%, transparent 87%, var(--tech-grid) 87.5%, var(--tech-grid)),
+    linear-gradient(30deg, var(--tech-grid) 12%, transparent 12.5%, transparent 87%, var(--tech-grid) 87.5%, var(--tech-grid)),
+    linear-gradient(150deg, var(--tech-grid) 12%, transparent 12.5%, transparent 87%, var(--tech-grid) 87.5%, var(--tech-grid)),
+    linear-gradient(60deg, rgba(56, 139, 200, 0.03) 25%, transparent 25.5%, transparent 75%, rgba(56, 139, 200, 0.03) 75%, rgba(56, 139, 200, 0.03)),
+    linear-gradient(60deg, rgba(56, 139, 200, 0.03) 25%, transparent 25.5%, transparent 75%, rgba(56, 139, 200, 0.03) 75%, rgba(56, 139, 200, 0.03));
+  background-size: 80px 140px;
+  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 扫描线效果 */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 50%,
+    rgba(56, 139, 200, 0.02) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+  animation: scanMove 8s linear infinite;
+}
+
+@keyframes scanMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 4px; }
+}
+
+/* 减少动画效果 - 支持动画敏感用户 */
+@media (prefers-reduced-motion: reduce) {
+  .crt-overlay {
+    animation: none !important;
+  }
+
+  .logo::before,
+  .logo::after {
+    animation: none !important;
+    content: '';
+    opacity: 1;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .app-header {
   height: 64px;
-  background: rgba(30, 41, 59, 0.8);
-  backdrop-filter: blur(12px);
+  background: var(--tech-panel);
+  backdrop-filter: blur(16px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--tech-border);
+  position: relative;
+  z-index: 10;
 }
+
+.app-header::before,
+.app-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tech-accent), transparent);
+}
+
+.app-header::before { left: 0; }
+.app-header::after { right: 0; }
 
 .header-content {
   display: flex;
@@ -65,62 +163,115 @@
 }
 
 .logo {
-  font-size: 20px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--tech-accent);
   margin: 0;
+  letter-spacing: 0.05em;
+  position: relative;
+}
+
+.logo::before {
+  content: '> ';
+  color: var(--tech-accent-2);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.logo::after {
+  content: '_';
+  animation: blink 1s step-end infinite;
 }
 
 .nav-menu {
   display: flex;
-  gap: 8px;
+  gap: 4px;
 }
 
 .nav-link {
-  color: #cbd5e1;
+  color: var(--tech-text-muted);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  position: relative;
+  cursor: pointer;
 }
 
 .nav-link:hover {
-  color: #f1f5f9;
-  background: rgba(99, 102, 241, 0.1);
+  color: var(--tech-accent);
+  background: rgba(56, 139, 200, 0.08);
+}
+
+.nav-link:focus-visible {
+  outline: 2px solid var(--tech-accent);
+  outline-offset: 2px;
 }
 
 .nav-link.router-link-active {
-  color: #f1f5f9;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(168, 85, 247, 0.3) 100%);
+  color: var(--tech-accent);
+  background: rgba(56, 139, 200, 0.1);
+}
+
+.nav-link.router-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--tech-accent);
+  border-radius: 1px;
 }
 
 .app-main {
   flex: 1;
-  padding: 24px;
+  padding: 32px 24px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .app-footer {
-  height: 56px;
-  background: rgba(30, 41, 59, 0.8);
-  backdrop-filter: blur(12px);
+  height: 52px;
+  background: var(--tech-panel);
+  backdrop-filter: blur(16px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid rgba(99, 102, 241, 0.2);
+  border-top: 1px solid var(--tech-border);
+  position: relative;
+  z-index: 10;
+}
+
+.app-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tech-accent), transparent);
 }
 
 .app-footer p {
-  color: #94a3b8;
-  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--tech-text-muted);
+  font-size: 11px;
+  font-weight: 500;
   margin: 0;
+  letter-spacing: 0.05em;
 }
 </style>

@@ -47,20 +47,30 @@
 
 <style scoped>
 .controls-panel {
-  width: 220px;
-  background: rgba(30, 41, 59, 0.5);
-  backdrop-filter: blur(12px);
-  border-radius: 12px;
+  width: 200px;
+  background: var(--tech-panel);
+  backdrop-filter: blur(16px);
+  border-radius: 6px;
   padding: 20px;
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid var(--tech-border);
+}
+
+/* 移动端响应式 */
+@media (max-width: 768px) {
+  .controls-panel {
+    width: 100%;
+    max-width: 200px;
+  }
 }
 
 .panel-title {
-  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
   font-weight: 600;
   margin-bottom: 16px;
-  color: #cbd5e1;
-  text-align: center;
+  color: var(--tech-accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .key-cards {
@@ -70,34 +80,40 @@
 }
 
 .key-card {
-  background: rgba(15, 23, 42, 0.3);
-  border-radius: 8px;
-  padding: 10px;
-  text-align: center;
-  border: 1px solid rgba(71, 85, 105, 0.3);
-  transition: all 0.2s;
+  background: rgba(56, 139, 200, 0.05);
+  border-radius: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--tech-border);
+  transition: all 0.2s ease;
+  cursor: default;
 }
 
 .key-card:hover {
-  background: rgba(99, 102, 241, 0.1);
-  border-color: rgba(99, 102, 241, 0.5);
+  border-color: var(--tech-accent);
+  background: rgba(56, 139, 200, 0.1);
+}
+
+.key-card:focus-visible {
+  outline: 2px solid var(--tech-accent);
+  outline-offset: 2px;
 }
 
 .key-icon {
   display: inline-block;
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid #475569;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 13px;
-  font-weight: 600;
+  background: var(--tech-bg);
+  border: 1px solid var(--tech-border);
+  border-radius: 3px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
   margin-bottom: 6px;
-  color: #e2e8f0;
+  color: var(--tech-accent);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .key-desc {
   font-size: 11px;
-  color: #94a3b8;
+  color: var(--tech-text-muted);
   font-weight: 500;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="leaderboard-page">
+  <main class="leaderboard-page" role="main" aria-label="排行榜">
     <div class="leaderboard-container">
       <h1 class="page-title">排行榜</h1>
 
@@ -8,6 +8,7 @@
         style="width: 100%"
         :border="true"
         :stripe="false"
+        aria-label="游戏排行榜"
       >
         <el-table-column prop="rank" label="排名" width="80" align="center" />
         <el-table-column prop="player_name" label="玩家" min-width="120" />
@@ -19,13 +20,13 @@
       </el-table>
 
       <div class="back-section">
-        <el-button @click="goBack">返回游戏</el-button>
-        <el-button @click="refreshData" :loading="loading">
+        <el-button @click="goBack" aria-label="返回游戏页面">返回游戏</el-button>
+        <el-button @click="refreshData" :loading="loading" aria-label="刷新排行榜数据">
           刷新
         </el-button>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -129,58 +130,65 @@ onUnmounted(() => {
 <style scoped>
 .leaderboard-page {
   width: 100%;
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 116px);
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .leaderboard-container {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  background: rgba(30, 41, 59, 0.5);
-  backdrop-filter: blur(12px);
-  border-radius: 12px;
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: var(--tech-panel);
+  backdrop-filter: blur(16px);
+  border-radius: 6px;
+  border: 1px solid var(--tech-border);
   padding: 24px;
 }
 
 .page-title {
-  font-size: 24px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--tech-accent);
   margin-bottom: 24px;
+  text-align: center;
+  letter-spacing: 0.05em;
 }
 
 .back-section {
-  margin-top: 20px;
+  margin-top: 24px;
   display: flex;
   gap: 12px;
+  justify-content: center;
 }
 
-/* Element Plus Table 样式 - 深色主题 */
+/* Element Plus Table 样式 - 科技风格 */
 :deep(.el-table) {
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
-  color: #cbd5e1;
+  color: var(--tech-text);
   background: transparent !important;
+  border: 1px solid var(--tech-border);
 }
 
 :deep(.el-table__inner-wrapper) {
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
 :deep(.el-table th.el-table__cell) {
-  background: rgba(15, 23, 42, 0.8) !important;
-  color: #94a3b8;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(56, 139, 200, 0.08) !important;
+  color: var(--tech-text-muted);
   font-weight: 600;
-  font-size: 13px;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(99, 102, 241, 0.3) !important;
-  border-right: 1px solid rgba(99, 102, 241, 0.2) !important;
+  font-size: 11px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--tech-border) !important;
+  border-right: 1px solid var(--tech-border) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 :deep(.el-table th.el-table__cell:last-child) {
@@ -189,18 +197,20 @@ onUnmounted(() => {
 
 :deep(.el-table tr) {
   background: transparent !important;
+  transition: all 0.2s ease;
 }
 
 :deep(.el-table tr:hover > td) {
-  background: rgba(99, 102, 241, 0.1) !important;
+  background: rgba(56, 139, 200, 0.05) !important;
 }
 
 :deep(.el-table td.el-table__cell) {
   padding: 12px 0;
-  border-bottom: 1px solid rgba(71, 85, 105, 0.3) !important;
-  border-right: 1px solid rgba(71, 85, 105, 0.2) !important;
-  color: #e2e8f0;
+  border-bottom: 1px solid var(--tech-border) !important;
+  border-right: 1px solid var(--tech-border) !important;
+  color: var(--tech-text);
   background: transparent !important;
+  font-weight: 500;
 }
 
 :deep(.el-table td.el-table__cell:last-child) {
@@ -212,42 +222,57 @@ onUnmounted(() => {
 }
 
 :deep(.el-table__empty-block) {
-  background: rgba(15, 23, 42, 0.5) !important;
+  background: rgba(56, 139, 200, 0.02) !important;
 }
 
 :deep(.el-table__empty-text) {
-  color: #94a3b8;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--tech-text-muted);
 }
 
-/* 排名数字样式 */
+/* 排名数字样式 - 前三名特殊样式 */
 :deep(.el-table__body .el-table__row td:first-child) {
-  color: #818cf8;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--tech-accent);
+  font-weight: 600;
+}
+
+:deep(.el-table__body .el-table__row:nth-child(1) td:first-child) {
+  color: var(--tech-accent-2);
   font-weight: 700;
 }
 
 /* 分数列样式 */
 :deep(.el-table__body .el-table__row td:nth-child(3)) {
-  color: #fbbf24;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--tech-accent);
   font-weight: 600;
 }
 
-/* Element Plus Button 样式 - 深色主题 */
+/* Element Plus Button 样式 - 科技风格 */
 :deep(.el-button) {
+  font-family: 'JetBrains Mono', monospace;
   height: 36px;
   padding: 0 20px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 6px;
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  background: rgba(99, 102, 241, 0.1);
-  color: #cbd5e1;
-  transition: all 0.2s;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid var(--tech-border);
+  background: transparent;
+  color: var(--tech-text);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 :deep(.el-button:hover) {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.5);
-  color: #f1f5f9;
+  background: var(--tech-accent);
+  border-color: var(--tech-accent);
+  color: var(--tech-bg);
+}
+
+:deep(.el-button:focus-visible) {
+  outline: 2px solid var(--tech-accent);
+  outline-offset: 2px;
 }
 
 :deep(.el-button.is-loading) {

@@ -116,12 +116,20 @@ watch(() => gameStore.nextPieceType, () => {
 
 <style scoped>
 .info-panel {
-  width: 260px;
-  background: rgba(30, 41, 59, 0.5);
-  backdrop-filter: blur(12px);
-  border-radius: 12px;
+  width: 240px;
+  background: var(--tech-panel);
+  backdrop-filter: blur(16px);
+  border-radius: 6px;
   padding: 20px;
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid var(--tech-border);
+}
+
+/* 移动端响应式 */
+@media (max-width: 768px) {
+  .info-panel {
+    width: 100%;
+    max-width: 240px;
+  }
 }
 
 .panel-section {
@@ -133,58 +141,60 @@ watch(() => gameStore.nextPieceType, () => {
 }
 
 .section-title {
-  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
   font-weight: 600;
-  margin-bottom: 8px;
-  color: #94a3b8;
+  margin-bottom: 10px;
+  color: var(--tech-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
 }
 
 .next-piece-preview {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(15, 23, 42, 0.5);
-  border-radius: 8px;
+  background: rgba(56, 139, 200, 0.05);
+  border-radius: 4px;
   padding: 16px;
-  border: 2px solid #475569;
+  border: 1px solid var(--tech-border);
 }
 
 .player-name-display {
-  font-size: 16px;
-  font-weight: 700;
-  color: #818cf8;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--tech-accent);
   text-align: center;
   padding: 12px;
-  background: rgba(15, 23, 42, 0.5);
-  border-radius: 8px;
+  background: rgba(56, 139, 200, 0.05);
+  border-radius: 4px;
   word-break: break-word;
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  margin-bottom: 20px;
+  border: 1px solid var(--tech-border);
+  margin-bottom: 16px;
 }
 
 .score-display {
+  font-family: 'JetBrains Mono', monospace;
   font-size: 28px;
-  font-weight: 700;
-  color: #ffffff;
+  font-weight: 600;
+  color: var(--tech-accent);
   text-align: center;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .level-display {
-  font-size: 32px;
-  font-weight: 700;
-  color: #22c55e;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--tech-accent-2);
   text-align: center;
-  text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
 }
 
 .lines-display {
+  font-family: 'Inter', sans-serif;
   font-size: 24px;
   font-weight: 600;
-  color: #3b82f6;
+  color: var(--tech-accent-3);
   text-align: center;
-  text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
 }
 </style>

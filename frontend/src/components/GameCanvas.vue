@@ -32,20 +32,55 @@ const piece = computed(() =>
 <style scoped>
 .game-canvas-container {
   position: relative;
-  width: 450px;  /* 15列 × 30px = 450px */
-  height: 600px;  /* 20行 × 30px = 600px */
-  border: 4px solid #6366f1;
-  border-radius: 12px;
+  width: 450px;
+  height: 600px;
+  max-width: 100%;
+  aspect-ratio: 3 / 4;
+  border: 1px solid var(--tech-border);
+  border-radius: 4px;
   display: block;
   outline: none;
-  background: #1a1a2e;
+  background: var(--tech-bg);
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+}
+
+/* 移动端响应式 */
+@media (max-width: 480px) {
+  .game-canvas-container {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+  }
+}
+
+.game-canvas-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(56, 139, 200, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 139, 200, 0.02) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.game-canvas-container::after {
+  content: 'TETRIS_SYS';
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--tech-text-muted);
+  opacity: 0.5;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .game-canvas-container:focus {
-  border-color: #818cf8;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+  border-color: var(--tech-accent);
 }
 
 .game-board-layer {
