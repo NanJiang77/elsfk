@@ -287,7 +287,20 @@ export class GameEngine {
   private lockPiece(): void {
     if (!this.currentPiece) return;
 
-    const { shape, x, y } = this.currentPiece;
+    const { shape, x, y, type } = this.currentPiece;
+
+    // 将 PieceType 转换为数字
+    const typeToNumber: Record<PieceType, number> = {
+      'I': 1,
+      'O': 2,
+      'T': 3,
+      'S': 4,
+      'Z': 5,
+      'J': 6,
+      'L': 7,
+    };
+
+    const pieceNumber = typeToNumber[type];
 
     for (let py = 0; py < shape.length; py++) {
       const row = shape[py];
@@ -300,7 +313,7 @@ export class GameEngine {
           if (boardY >= 0 && boardY < this.config.rows && boardX >= 0 && boardX < this.config.cols) {
             const boardRow = this.board[boardY];
             if (boardRow) {
-              boardRow[boardX] = 1; // 简化存储，实际应该存储方块类型
+              boardRow[boardX] = pieceNumber;
             }
           }
         }

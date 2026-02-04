@@ -37,16 +37,21 @@ export class LineClearManager {
    * 消除行并下落上方行
    */
   clearLines(board: number[][], linesToClear: number[]): number[][] {
-    const newBoard = board.map((row) => [...row]);
+    if (linesToClear.length === 0) return board;
 
-    // 从下往上消除，避免索引问题
-    linesToClear
-      .sort((a, b) => b - a)
-      .forEach((lineIndex) => {
-        newBoard.splice(lineIndex, 1);
-        // 在顶部添加新空行
-        newBoard.unshift(Array(this.config.cols).fill(0));
-      });
+    // 按从大到小排序，避免splice时索引变化的问题
+    const sortedLines = [...linesToClear].sort((a, b) => b - a);
+
+    // 先删除所有要消除的行
+    const newBoard = board.map((row) => [...row]);
+    sortedLines.forEach((lineIndex) => {
+      newBoard.splice(lineIndex, 1);
+    });
+
+    // 在顶部一次性添加对应数量的空行
+    for (let i = 0; i < linesToClear.length; i++) {
+      newBoard.unshift(Array(this.config.cols).fill(0));
+    }
 
     return newBoard;
   }

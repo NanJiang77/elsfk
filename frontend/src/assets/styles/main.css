@@ -56,11 +56,7 @@ body {
   overflow-x: hidden;
 }
 
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+/* 移除 #app 的全局样式，避免与 App.vue 中的样式冲突 */
 
 /* 实用类 */
 .text-center {

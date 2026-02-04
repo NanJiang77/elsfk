@@ -1,38 +1,90 @@
 <template>
-  <div id="app">
-    <!-- CRT 扫描线效果 -->
-    <div class="crt-overlay"></div>
+  <div id="app" :class="{ 'is-mobile': isDeviceMobile }">
+    <!-- 移动端布局 -->
+    <MobileApp v-if="isDeviceMobile" />
 
-    <!-- 顶部导航栏 -->
-    <header class="app-header">
-      <div class="header-content">
-        <h1 class="logo">俄罗斯方块</h1>
-        <nav class="nav-menu" aria-label="主导航">
-          <router-link to="/" class="nav-link" aria-label="前往游戏页面">游戏</router-link>
-          <router-link to="/leaderboard" class="nav-link" aria-label="查看排行榜">排行榜</router-link>
-        </nav>
-      </div>
-    </header>
+    <!-- 桌面端布局 - 只在真正的桌面设备上渲染 -->
+    <template v-if="!isDeviceMobile && isDesktopDevice">
+      <!-- CRT 扫描线效果 -->
+      <div class="crt-overlay"></div>
 
-    <!-- 主内容区域 -->
-    <main class="app-main">
-      <router-view />
-    </main>
+      <!-- 顶部导航栏 -->
+      <header class="app-header">
+        <div class="header-content">
+          <h1 class="logo">俄罗斯方块</h1>
+          <nav class="nav-menu" aria-label="主导航">
+            <router-link to="/" class="nav-link" aria-label="前往游戏页面">游戏</router-link>
+            <router-link to="/leaderboard" class="nav-link" aria-label="查看排行榜">排行榜</router-link>
+          </nav>
+        </div>
+      </header>
 
-    <!-- 底部页脚 -->
-    <footer class="app-footer">
-      <p>&copy; 2026 俄罗斯方块 | 使用 Vue 3 + Canvas 构建</p>
-    </footer>
+      <!-- 主内容区域 -->
+      <main class="app-main">
+        <router-view />
+      </main>
+
+      <!-- 底部页脚 -->
+      <footer class="app-footer">
+        <p>&copy; 2026 俄罗斯方块 | 使用 Vue 3 + Canvas 构建</p>
+      </footer>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-// 主应用组件
+import { ref, onMounted, onUnmounted } from 'vue';
+import { isMobile as checkIsMobile, onResize } from '@/utils/device';
+import MobileApp from '@/components/mobile/MobileApp.vue';
+
+// 设备检测 - 默认假设为移动设备，更安全
+const isDeviceMobile = ref(true);
+const isDesktopDevice = ref(false);
+
+// 在客户端重新检测
+onMounted(() => {
+  // 立即检测设备类型
+  const detectedMobile = checkIsMobile();
+
+  // 如果检测到是桌面设备，只在不触摸的情况下才切换
+  // 有触摸功能的设备（如 iPad）应该显示移动端
+  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!detectedMobile && !hasTouch && window.innerWidth > 768) {
+    isDeviceMobile.value = false;
+    isDesktopDevice.value = true;
+  } else {
+    isDeviceMobile.value = true;
+    isDesktopDevice.value = false;
+  }
+});
+
+// 监听窗口大小变化
+let cleanupResize: (() => void) | undefined;
+
+onMounted(() => {
+  cleanupResize = onResize(() => {
+    // 窗口大小变化时，只在真正需要时才切换
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const detectedMobile = checkIsMobile();
+
+    if (!detectedMobile && !hasTouch && window.innerWidth > 768) {
+      isDeviceMobile.value = false;
+      isDesktopDevice.value = true;
+    } else {
+      isDeviceMobile.value = true;
+      isDesktopDevice.value = false;
+    }
+  });
+});
+
+onUnmounted(() => {
+  if (cleanupResize) {
+    cleanupResize();
+  }
+});
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
-
 * {
   margin: 0;
   padding: 0;
